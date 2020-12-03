@@ -51,6 +51,8 @@ func (ac *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
 		view.Render(w, view.D{
 			"Articles":  articles,
 			"PagerData": pagerData,
+			//"CanModifyArticle": policies.CanModifyArticle(article),
+			"CanModifyArticle": 1,
 		}, "articles.index", "articles._article_meta")
 	}
 }

@@ -32,6 +32,7 @@
     var simplemde = new SimpleMDE();
   </script>
   <script>
+    // 文章首页markdown渲染
     let ch = $(".ch");
 
     for (let i = 0, len = ch.length; i<len; i++) {
@@ -39,6 +40,12 @@
       ch[i].innerHTML = marked(chc);
     }
 
+  </script>
+  <script>
+    // 文章详情markdown渲染
+    let detail = $(".article_detail")[0];
+    let detailCtx = detail.innerHTML
+    detail.innerHTML = marked(detailCtx);
   </script>
 
 </body>
