@@ -20,12 +20,19 @@ func RegisterWebRoutes(r *mux.Router) {
 	// 文章相关页面
 	ac := new(controllers.ArticlesController)
 	r.HandleFunc("/", ac.Index).Methods("GET").Name("home")
+	// 展示文章详情
 	r.HandleFunc("/articles/{id:[0-9]+}", ac.Show).Methods("GET").Name("articles.show")
+	// 首页文章列表
 	r.HandleFunc("/articles", ac.Index).Methods("GET").Name("articles.index")
+	// 展示新建文章页面
 	r.HandleFunc("/articles/create", middlewares.Auth(ac.Create)).Methods("GET").Name("articles.create")
+	// 保存文章
 	r.HandleFunc("/articles", middlewares.Auth(ac.Store)).Methods("POST").Name("articles.store")
+	// 展示修改文章页面
 	r.HandleFunc("/articles/{id:[0-9]+}/edit", middlewares.Auth(ac.Edit)).Methods("GET").Name("articles.edit")
+	// 修改文章
 	r.HandleFunc("/articles/{id:[0-9]+}", middlewares.Auth(ac.Update)).Methods("POST").Name("articles.update")
+	// 删除文章
 	r.HandleFunc("/articles/{id:[0-9]+}/delete", middlewares.Auth(ac.Delete)).Methods("POST").Name("articles.delete")
 
 	// 文章分类
@@ -49,6 +56,8 @@ func RegisterWebRoutes(r *mux.Router) {
 	// 静态资源
 	r.PathPrefix("/css/").Handler(http.FileServer(http.Dir("./public")))
 	r.PathPrefix("/js/").Handler(http.FileServer(http.Dir("./public")))
+
+	// 迁移数据
 
 	// --- 全局中间件 ---
 

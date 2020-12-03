@@ -6,7 +6,7 @@
   <title>{{template "title" .}}</title>
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/app.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+  <link rel="stylesheet" href="/css/simplemde.min.css">
 
 </head>
 
@@ -25,14 +25,20 @@
   </div>
 
   <script src="/js/bootstrap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/simplemde.min.js"></script>
+  <script src="/js/marked.min.js"></script>
   <script>
     var simplemde = new SimpleMDE();
   </script>
   <script>
-    document.getElementById('content').innerHTML =
-            marked('# Marked in the browser\n\nRendered by **marked**.');
+    let ch = $(".ch");
+
+    for (let i = 0, len = ch.length; i<len; i++) {
+      let chc = ch[i].innerHTML;
+      ch[i].innerHTML = marked(chc);
+    }
+
   </script>
 
 </body>

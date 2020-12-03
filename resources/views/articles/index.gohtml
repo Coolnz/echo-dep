@@ -7,13 +7,13 @@
 
   {{ range $key, $article := .Articles }}
 
-    <div class="blog-post bg-white p-5 rounded shadow mb-4">
+    <div class="blog-post  bg-white p-5 rounded shadow mb-4">
 
       {{template "article-meta" $article }}
 
       <hr>
-{{/*      <div id="content">{{ $article.Body }}</div>*/}}
-      <div>{{ $article.Body }}</div>
+      <!-- 用marked渲染-->
+      <div class="ch">{{ $article.Body }}</div>
 
     </div><!-- /.blog-post -->
 
