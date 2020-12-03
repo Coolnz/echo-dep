@@ -40,20 +40,29 @@ func (ac *ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 // Index 文章列表页
 func (ac *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
 
-	// 1. 获取结果集
-	articles, pagerData, err := article.GetAll(r, 15)
-
-	if err != nil {
-		ac.ResposeForSQLError(w, err)
+	// 判断用户是否登录
+	isLogin := auth.Check()
+	if !isLogin {
+		view.RenderSimple(w, view.D{}, "auth.login")
 	} else {
+		// todo
+		//userId := auth.User().ID
+		// 1. 获取结果集
+		articles, pagerData, err := article.GetAll(r, 15)
+		//articles, pagerData, err := article.GetArticleListByUserId(r, userId, 15)
 
-		// ---  2. 加载模板 ---
-		view.Render(w, view.D{
-			"Articles":  articles,
-			"PagerData": pagerData,
-			//"CanModifyArticle": policies.CanModifyArticle(article),
-			"CanModifyArticle": 1,
-		}, "articles.index", "articles._article_meta")
+		if err != nil {
+			ac.ResposeForSQLError(w, err)
+		} else {
+
+			// ---  2. 加载模板 ---
+			view.Render(w, view.D{
+				"Articles":  articles,
+				"PagerData": pagerData,
+				//"CanModifyArticle": policies.CanModifyArticle(article),
+				"CanModifyArticle": 1,
+			}, "articles.index", "articles._article_meta")
+		}
 	}
 }
 

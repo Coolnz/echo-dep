@@ -19,11 +19,12 @@ func RegisterWebRoutes(r *mux.Router) {
 
 	// 文章相关页面
 	ac := new(controllers.ArticlesController)
+	// 首页文章列表
 	r.HandleFunc("/", ac.Index).Methods("GET").Name("home")
+	r.HandleFunc("/articles", ac.Index).Methods("GET").Name("articles.index")
+
 	// 展示文章详情
 	r.HandleFunc("/articles/{id:[0-9]+}", ac.Show).Methods("GET").Name("articles.show")
-	// 首页文章列表
-	r.HandleFunc("/articles", ac.Index).Methods("GET").Name("articles.index")
 	// 展示新建文章页面
 	r.HandleFunc("/articles/create", middlewares.Auth(ac.Create)).Methods("GET").Name("articles.create")
 	// 保存文章
