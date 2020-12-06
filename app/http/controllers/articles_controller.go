@@ -46,7 +46,6 @@ func (ac *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
 		view.RenderSimple(w, view.D{}, "auth.login")
 	} else {
 		userId := auth.User().ID
-		userId = 2
 		// 1. 获取结果集
 		//articles, pagerData, err := article.GetAll(r, 15)
 		articles, pagerData, err := article.GetArticleListByUserId(r, 15, userId)
