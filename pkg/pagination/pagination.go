@@ -149,6 +149,22 @@ func (p Pagination) Results(data interface{}) error {
 	return p.db.Preload(clause.Associations).Limit(p.PerPage).Offset(offset).Find(data).Error
 }
 
+// ResultsWhere 返回请求数据，请注意 data 参数必须为 GROM 模型的 Slice 对象
+func (p Pagination) ResultsWhere(data interface{}, userId uint64) error {
+	var err error
+	var offset int
+	page := p.CurrentPage()
+	if page == 0 {
+		return err
+	}
+
+	if page > 1 {
+		offset = (page - 1) * p.PerPage
+	}
+
+	return p.db.Preload(clause.Associations).Where("user_id = ?", userId).Limit(p.PerPage).Offset(offset).Find(data).Error
+}
+
 // TotalCount 返回的是数据库里的条数
 func (p *Pagination) TotalCount() int64 {
 	if p.Count == -1 {

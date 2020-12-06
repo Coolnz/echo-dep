@@ -2,6 +2,7 @@ package models
 
 import (
 	"goblog/pkg/types"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -13,7 +14,7 @@ type BaseModel struct {
 	UpdatedAt time.Time `gorm:"column:updated_at;index"`
 
 	// 支持 gorm 软删除
-	// DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" sql:"index"`
+	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" sql:"index"`
 }
 
 // GetStringID 获取 ID 的字符串格式

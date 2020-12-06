@@ -45,11 +45,11 @@ func (ac *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
 	if !isLogin {
 		view.RenderSimple(w, view.D{}, "auth.login")
 	} else {
-		// todo
-		//userId := auth.User().ID
+		userId := auth.User().ID
+		userId = 2
 		// 1. 获取结果集
-		articles, pagerData, err := article.GetAll(r, 15)
-		//articles, pagerData, err := article.GetArticleListByUserId(r, userId, 15)
+		//articles, pagerData, err := article.GetAll(r, 15)
+		articles, pagerData, err := article.GetArticleListByUserId(r, 15, userId)
 
 		if err != nil {
 			ac.ResposeForSQLError(w, err)
