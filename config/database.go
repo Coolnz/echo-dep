@@ -10,11 +10,11 @@ func init() {
 		"mysql": map[string]interface{}{
 
 			// 数据库连接信息
-			"host":     config.Env("DB_HOST", "127.0.0.1"),
+			"host":     config.Env("DB_HOST", "rm-j6czk8i54zzs335iq9o.mysql.rds.aliyuncs.com"),
 			"port":     config.Env("DB_PORT", "3306"),
 			"database": config.Env("DB_DATABASE", "goblog"),
-			"username": config.Env("DB_USERNAME", "root"),
-			"password": config.Env("DB_PASSWORD", "root"),
+			"username": config.Env("DB_USERNAME", "karalabe"),
+			"password": config.Env("DB_PASSWORD", "MuBrmbYjXhRTZCCg7"),
 			"charset":  "utf8mb4",
 
 			// 连接池配置
