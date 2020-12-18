@@ -25,6 +25,7 @@ func (ac *ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 	// 2. 读取对应的文章数据
 	article, err := article.Get(id)
 
+	isCan := policies.CanModifyArticle(article)
 	// 3. 如果出现错误
 	if err != nil {
 		ac.ResposeForSQLError(w, err)
@@ -32,7 +33,7 @@ func (ac *ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 		// ---  4. 读取成功，显示文章 ---
 		view.Render(w, view.D{
 			"Article":          article,
-			"CanModifyArticle": policies.CanModifyArticle(article),
+			"CanModifyArticle": isCan,
 		}, "articles.show", "articles._article_meta")
 	}
 }
@@ -42,6 +43,7 @@ func (ac *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
 
 	// 判断用户是否登录
 	isLogin := auth.Check()
+	
 	if !isLogin {
 		view.RenderSimple(w, view.D{}, "auth.login")
 	} else {
@@ -59,7 +61,8 @@ func (ac *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
 				"Articles":  articles,
 				"PagerData": pagerData,
 				//"CanModifyArticle": policies.CanModifyArticle(article),
-				"CanModifyArticle": 1,
+				"CanModifyArticle": true,
+				"IsStared": true,
 			}, "articles.index", "articles._article_meta")
 		}
 	}
