@@ -47,6 +47,78 @@
     let detailCtx = detail.innerHTML
     detail.innerHTML = marked(detailCtx);
   </script>
+  <script>
+    function star(articleId) {
+      $.ajax({
+        url: {{ RouteName2URL "star.add" }},
+        type: "post",
+        dataType: "json",
+        data: {
+          articleId: articleId
+        },
+        success: function (response) {
+          if (response.code === 200) {
+            // 收藏成功则展示"取消收藏"
+            $("button[name='star111']").replaceWith("<button type=\"button\" name=\"cancel111\" class=\"btn btn-outline-info btn-sm\" onclick=\"unStar("+articleId+")\"><i class=\"fa fa-heart\" aria-hidden=\"true\"></i>取消收藏\n</button>")
+          }
+        }
+      })
+    }
+  </script>
+  <script>
+    function unStar(articleId) {
+      $.ajax({
+        url: {{ RouteName2URL "star.cancel" }},
+        type: "post",
+        dataType: "json",
+        data: {
+          articleId: articleId
+        },
+        success: function (response) {
+          if (response.code === 200) {
+            // 收藏成功则展示"取消收藏"
+            $("button[name='cancel111']").replaceWith("<button type=\"button\" name=\"star111\" class=\"btn btn-outline-info btn-sm\" onclick=\"star("+articleId+")\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i>收藏</button>")
+          }
+        }
+      })
+    }
+  </script>
+  <script>
+    function indexStar(articleId) {
+      $.ajax({
+        url: {{ RouteName2URL "star.add" }},
+        type: "post",
+        dataType: "json",
+        data: {
+          articleId: articleId
+        },
+        success: function (response) {
+          if (response.code === 200) {
+            // 收藏成功则展示"取消收藏"
+            $("button[name='star"+articleId+"']").replaceWith("<button type=\"button\" name=\"cancel111\" class=\"btn btn-outline-info btn-sm\" onclick=\"unStar("+articleId+")\"><i class=\"fa fa-heart\" aria-hidden=\"true\"></i>取消收藏\n</button>")
+          }
+        }
+      })
+    }
+  </script>
+  <script>
+    function indexUnStar(articleId) {
+      $.ajax({
+        url: {{ RouteName2URL "star.cancel" }},
+        type: "post",
+        dataType: "json",
+        data: {
+          articleId: articleId
+        },
+        success: function (response) {
+          if (response.code === 200) {
+            // 收藏成功则展示"取消收藏"
+            $("button[name='cancel"+articleId+"']").replaceWith("<button type=\"button\" name=\"star111\" class=\"btn btn-outline-info btn-sm\" onclick=\"star("+articleId+")\"><i class=\"fa fa-heart-o\" aria-hidden=\"true\"></i>收藏</button>")
+          }
+        }
+      })
+    }
+  </script>
 
 </body>
 

@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"goblog/app/models/article"
+	"goblog/app/models/star"
 	"goblog/app/policies"
 	"goblog/app/requests"
 	"goblog/pkg/auth"
@@ -25,7 +26,11 @@ func (ac *ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 	// 2. 读取对应的文章数据
 	article, err := article.Get(id)
 
+	// 是否拥有编辑权限
 	isCan := policies.CanModifyArticle(article)
+	// 判断文章是否已收藏
+	isStared, _ := star.IsStared(1, id)
+
 	// 3. 如果出现错误
 	if err != nil {
 		ac.ResposeForSQLError(w, err)
@@ -34,6 +39,7 @@ func (ac *ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 		view.Render(w, view.D{
 			"Article":          article,
 			"CanModifyArticle": isCan,
+			"IsStared":         isStared,
 		}, "articles.show", "articles._article_meta")
 	}
 }
@@ -43,13 +49,12 @@ func (ac *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
 
 	// 判断用户是否登录
 	isLogin := auth.Check()
-	
+
 	if !isLogin {
 		view.RenderSimple(w, view.D{}, "auth.login")
 	} else {
 		userId := auth.User().ID
 		// 1. 获取结果集
-		//articles, pagerData, err := article.GetAll(r, 15)
 		articles, pagerData, err := article.GetArticleListByUserId(r, 15, userId)
 
 		if err != nil {
@@ -60,9 +65,6 @@ func (ac *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
 			view.Render(w, view.D{
 				"Articles":  articles,
 				"PagerData": pagerData,
-				//"CanModifyArticle": policies.CanModifyArticle(article),
-				"CanModifyArticle": true,
-				"IsStared": true,
 			}, "articles.index", "articles._article_meta")
 		}
 	}

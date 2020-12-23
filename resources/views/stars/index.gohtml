@@ -1,0 +1,54 @@
+{{define "title"}}
+  所有文章 —— 我的技术博客
+{{end}}
+
+{{define "main"}}
+  <div class="col-md-9 blog-main">
+
+    {{ range $key, $article := .Articles }}
+
+      <div class="blog-post  bg-white p-5 rounded shadow mb-4">
+
+
+        <div style="display: flex;flex-direction: row">
+          {{template "article-meta" $article }}
+          {{/*        {{ if .CanModifyArticle }}*/}}
+          <div style="margin-left:auto;">
+            <form action="{{ RouteName2URL "articles.delete" "id" $article.GetStringID }}" method="post">
+              <button type="submit" onclick="return confirm('删除动作不可逆，请确定是否继续')" class="btn btn-outline-danger btn-sm">
+                <i class="fa fa-trash" aria-hidden="true">删除</i>
+              </button>
+              <a href="{{ RouteName2URL "articles.edit" "id" $article.GetStringID }}" class="btn btn-outline-secondary btn-sm">
+                <i class="fa fa-pencil-square-o" aria-hidden="true">编辑</i>
+              </a>
+
+              {{/*判断文章是否已收藏*/}}
+              {{ if $article.IsStared}}
+                <button type="button" name="cancel{{$article.GetStringID}}" class="btn btn-outline-info btn-sm" onclick="indexUnStar({{ $article.GetStringID }})">
+                  <i class="fa fa-heart" aria-hidden="true"></i>取消收藏
+                </button>
+              {{ else }}
+                <button type="button" name="star{{$article.GetStringID}}" class="btn btn-outline-info btn-sm" onclick="indexStar({{ $article.GetStringID }})">
+                  <i class="fa fa-heart-o" aria-hidden="true"></i>收藏
+                </button>
+              {{ end }}
+
+            </form>
+          </div>
+          {{/*        {{end}}*/}}
+
+        </div>
+
+
+        <hr>
+        <!-- 用marked渲染-->
+        <div class="ch">{{ $article.Body }}</div>
+
+      </div><!-- /.blog-post -->
+
+    {{ end }}
+
+    {{template "pagination" .PagerData }}
+
+  </div><!-- /.blog-main -->
+{{end}}

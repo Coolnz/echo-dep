@@ -13,9 +13,24 @@
 
       {{ if .CanModifyArticle }}
         <form class="mt-4" action="{{ RouteName2URL "articles.delete" "id" .Article.GetStringID }}" method="post">
-            <button type="submit" onclick="return confirm('删除动作不可逆，请确定是否继续')" class="btn btn-outline-danger btn-sm">删除</button>
-            <a href="{{ RouteName2URL "articles.edit" "id" .Article.GetStringID }}" class="btn btn-outline-secondary btn-sm">编辑</a>
-            <button type="submit" class="btn btn-outline-info btn-sm">收藏</button>
+            <button type="submit" onclick="return confirm('删除动作不可逆，请确定是否继续')" class="btn btn-outline-danger btn-sm">
+              <i class="fa fa-trash" aria-hidden="true">删除</i>
+            </button>
+            <a href="{{ RouteName2URL "articles.edit" "id" .Article.GetStringID }}" class="btn btn-outline-secondary btn-sm">
+              <i class="fa fa-pencil-square-o" aria-hidden="true">编辑</i>
+            </a>
+
+          {{/*判断文章是否已收藏*/}}
+          {{ if .IsStared}}
+            <button type="button" name="cancel111" class="btn btn-outline-info btn-sm" onclick="unStar({{ .Article.GetStringID }})">
+              <i class="fa fa-heart" aria-hidden="true"></i>取消收藏
+            </button>
+          {{ else }}
+            <button type="button" name="star111" class="btn btn-outline-info btn-sm" onclick="star({{ .Article.GetStringID }})">
+              <i class="fa fa-heart-o" aria-hidden="true"></i>收藏
+            </button>
+          {{ end }}
+
         </form>
       {{end}}
 

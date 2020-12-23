@@ -36,7 +36,6 @@ func RegisterWebRoutes(r *mux.Router) {
 	// 删除文章
 	r.HandleFunc("/articles/{id:[0-9]+}/delete", middlewares.Auth(ac.Delete)).Methods("POST").Name("articles.delete")
 
-
 	star := new(controllers.StarController)
 	// 添加收藏
 	r.HandleFunc("/star/add", middlewares.Auth(star.Add)).Methods("POST").Name("star.add")
