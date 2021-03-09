@@ -1,0 +1,9 @@
+{
+  "apps" : [{
+    "name"        : "echo",
+    "script"      : "./main",
+    "log_date_format"  : "YYYY-MM-DD HH:mm Z",
+    "exec_mode": "fork",
+    "instances": 1
+  }]
+}
