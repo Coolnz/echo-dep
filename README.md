@@ -21,3 +21,10 @@
 [Mocc0L/echo.be.gf: 用goframe框架实现的echo博客项目](https://github.com/Mocc0L/echo.be.gf)
 
 [Mocc0L/echo.iris](https://github.com/Mocc0L/echo.iris)
+
+---
+
+添加某些用户到白名单后，该用户可以查看你的tweet列表。
+admin后台延后做，只做用户管理和内容风控模块。
+导出tweet。支持day one，格志日记等主流日记app的导出。
+
