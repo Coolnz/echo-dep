@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  echo.server:
+    build: .
+    container_name: echo-server
+    ports:
+      - 3000:3000
+    environment:
+      - TZ=Asia/Shanghai
+    depends_on:
+      - echo.mysql
+    links:
+      - echo.mysql
+    networks:
+      - echo-ex
+
+  echo.mysql:
+    image: mysql:latest
+    container_name: echo-mysql
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    environment:
+      - MYSQL_DATABASE=echo
+      - MYSQL_ROOT_PASSWORD=root
+      - TZ=Asia/Shanghai
+    volumes:
+#      - ./resources/sql:/docker-entrypoint-initdb.d/
+      - ~/docker/echo/mysql/data:/var/lib/mysql
+      - ~/docker/echo/mysql/log:/var/log/mysql
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+      --max_allowed_packet=128M
+      --default-time-zone=+8:00 # 设置MySQL数据到时区，而不是容器到时区
+    restart: always
+    networks:
+      - echo-ex
+
+
+networks:
+  echo-ex:
+    driver: bridge
+

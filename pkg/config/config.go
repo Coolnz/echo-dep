@@ -24,6 +24,7 @@ func init() {
 	Viper.SetConfigType("env")
 	// 4. 环境变量配置文件查找的路径，相对于 main.go
 	Viper.AddConfigPath(".")
+	viper.AutomaticEnv()
 
 	// 5. 开始读根目录下的 .env 文件，读不到会报错
 	err := Viper.ReadInConfig()
