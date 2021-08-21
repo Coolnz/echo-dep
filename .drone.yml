@@ -1,20 +1,67 @@
 kind: pipeline
 type: docker
-name: build
+name: echo
+
+clone:
+  depth: 1
+
+platform:
+  os: linux
+  arch: amd64
+
 steps:
-- name: build
-  image: golang:alpine
-  pull: if-not-exists # always never
-  environment:
-    KEY: VALUE
-  commands:
-    - echo $KEY
-    - pwd
-    - ls
-    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
-    - ./app
+  - name: helloworld
+    pull: if-not-exists
+    image: hello-world
+
+#  - name: build
+#    image: golang:alpine
+#    pull: if-not-exists # always never
+#    environment:
+#      KEY: VALUE
+#    commands:
+#      - echo $KEY
+#      - pwd
+#      - ls
+#      - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+#      - ./app
+
+  - name: ci_1.15
+    pull: if-not-exists
+    image: golang:1.15
+    environment:
+      GO111MODULE: "on"
+      GOPROXY: "https://goproxy.cn,direct"
+      GOSUMDB: "off"
+      CGO_ENABLED: "0"
+      GOOS: "linux"
+    depends_on:
+      - helloworld
+    commands:
+      - go version
+      - go env
+      - go mod tidy
+
+  - name: ci_1.16
+    pull: if-not-exists
+    image: golang:1.16
+    environment:
+      GO111MODULE: "on"
+      GOPROXY: "https://goproxy.cn,direct"
+      GOSUMDB: "off"
+      CGO_ENABLED: "0"
+      GOOS: "linux"
+    depends_on:
+      - helloworld
+    commands:
+      - go version
+      - go env
+      - go mod tidy
 
 trigger:
   branch:
-  - master
   - main
+  event:
+    - push
+    - pull_request
+    - tag
