@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+//
 func TestAllPages(t *testing.T) {
 
 	baseURL := "http://localhost:3000"

@@ -1,6 +1,6 @@
 # echo
 
-xxx
+[![Build Status](https://drone.wrss.top/api/badges/91go/echo/status.svg)](https://drone.wrss.top/91go/echo)
 
 
 # todo
