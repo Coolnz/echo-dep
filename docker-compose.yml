@@ -6,22 +6,18 @@ services:
     container_name: echo-server
     ports:
       - 3000:3000
+    depends_on:
+      - mysql
+    links:
+      - mysql
     environment:
       - TZ=Asia/Shanghai
-    depends_on:
-      - echo.mysql
-    links:
-      - echo.mysql
-    networks:
-      - echo-ex
 
-  echo.mysql:
-    image: mysql:latest
+  mysql:
+    image: mysql:5.7
     container_name: echo-mysql
     ports:
-      - "3306:3306"
-    expose:
-      - 3306
+      - 3306:3306
     environment:
       - MYSQL_DATABASE=echo
       - MYSQL_ROOT_PASSWORD=root
@@ -38,11 +34,4 @@ services:
       --max_allowed_packet=128M
       --default-time-zone=+8:00 # 设置MySQL数据到时区，而不是容器到时区
     restart: always
-    networks:
-      - echo-ex
-
-
-networks:
-  echo-ex:
-    driver: bridge
 

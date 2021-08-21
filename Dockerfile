@@ -17,8 +17,7 @@ COPY . .
 RUN go build -o echo .
 
 
-FROM scratch
-#FROM alpine
+FROM alpine
 #FROM debian:stretch-slim
 COPY --from=builder /build/echo /
 COPY --from=builder /build/.env /.env
