@@ -8,8 +8,8 @@ services:
       - 3000:3000
     depends_on:
       - mysql
-    links:
-      - mysql
+#    links:
+#      - mysql
     environment:
       - TZ=Asia/Shanghai
 
@@ -17,9 +17,10 @@ services:
     image: mysql:latest
     container_name: echo-mysql
     ports:
-      - 3306:3306
+      - "3306:3306"
+#    expose:
+#      - 3306
     environment:
-      - MYSQL_DATABASE=echo
       - MYSQL_ROOT_PASSWORD=root
       - TZ=Asia/Shanghai
     volumes:
