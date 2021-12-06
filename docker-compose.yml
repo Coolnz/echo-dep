@@ -23,7 +23,6 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - TZ=Asia/Shanghai
     volumes:
-      - ./resources/sql:/docker-entrypoint-initdb.d/
       - ~/docker/echo/mysql/data:/var/lib/mysql
       - ~/docker/echo/mysql/log:/var/log/mysql
     command:
